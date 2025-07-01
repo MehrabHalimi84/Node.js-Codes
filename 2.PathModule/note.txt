@@ -1,0 +1,130 @@
+ماژول Path 
+  برای دستکاری مسیر فایل و پوشه ها از این ماژول استفاده میکنن
+
+
+  که کلی متود داره 
+
+path.basename(path[, suffix])====>
+ اسم فایل رو از یک مسیر برمی‌گردونه.
+اگر suffix بدی، از آخر اسم فایل حذفش می‌کنه.
+
+console.log(path.basename('/foo/bar/index.html'));       // index.html
+console.log(path.basename('/foo/bar/index.html', '.html')); // index
+
+
+
+path.delimiter=====>
+ کاراکتر جداکننده مسیرها در محیط متغیرهای سیستمی.؟؟؟؟؟
+
+
+
+path.dirname(path) ====> 
+دایرکتوری بالا‌دست فایل یا پوشه‌ی داده شده رو برمی‌گردونه.
+
+console.log(path.dirname('/foo/bar/index.html')); // /foo/bar
+
+
+
+path.extname(path) ====>
+ پسوند فایل (extension) رو برمی‌گردونه.
+
+
+
+
+path.format(pathObject) ===>
+ یک شیء مسیر مثل خروجی path.parse() رو تبدیل به رشته‌ی مسیر می‌کنه.
+
+const pathObj = {
+  root: '/',
+  dir: '/foo/bar',
+  base: 'index.html'
+};
+console.log(path.format(pathObj)); // /foo/bar/index.html
+
+
+
+
+path.matchesGlob(path, pattern)؟؟؟؟؟؟؟؟؟
+
+
+
+
+path.isAbsolute(path) ====>
+بررسی می‌کنه مسیر مطلق (absolute) هست یا نه.
+
+console.log(path.isAbsolute('/foo/bar')); // true
+console.log(path.isAbsolute('foo/bar'));  // false
+
+
+
+
+path.join([...paths])===>
+چند تکه مسیر رو به هم وصل می‌کنه و مسیر نهایی استاندارد می‌سازه.
+console.log(path.join('/foo', 'bar', 'index.html')); // /foo/bar/index.html
+
+
+
+
+path.normalize(path)=====>
+ مسیر رو استاندارد و تمیز می‌کنه (مثلاً ..، .، // رو اصلاح می‌کنه).
+console.log(path.normalize('/foo//bar/../baz')); // /foo/baz
+
+
+
+
+path.parse(path) ====> 
+(یه ایجکت ازش درست میکنه که تایتل هاش مثل پایینه )
+
+{
+  root: '/',                 // ریشه مسیر
+  dir: '/home/mehrab/project', // مسیر دایرکتوری
+  base: 'app.js',            // نام کامل فایل با پسوند
+  ext: '.js',                // پسوند فایل
+  name: 'app'                // نام فایل بدون پسوند
+}
+
+
+
+
+path.posix ====>
+نسخه‌ی POSIX (مناسب لینوکس/مک) متدهای path رو برمی‌گردونه.
+
+
+
+
+path.relative(from, to) ===>
+ مسیر نسبی بین دو مسیر رو محاسبه می‌کنه.
+console.log(path.relative('/data/app', '/data/app/images/pic.jpg'));
+// خروجی: images/pic.jpg
+
+
+
+
+path.resolve([...paths]) ====>
+مسیرهای داده شده رو از راست به چپ پردازش کرده و یک مسیر مطلق می‌سازه.
+
+console.log(path.resolve('foo', 'bar', 'index.html'));
+// مثلاً: /home/user/current_dir/foo/bar/index.html
+
+
+
+
+path.sep===>
+ جداکننده‌ی مسیرها در سیستم عامل (\ در ویندوز، / در لینوکس و مک).
+
+
+
+
+path.toNamespacedPath(path)====>
+فقط در ویندوز استفاده می‌شه. مسیرها رو به فرمت خاص \\?\ تبدیل می‌کنه تا طول مسیر محدود نباشه.
+console.log(path.toNamespacedPath('C:\\myfolder\\file.txt'));
+// خروجی: \\?\C:\myfolder\file.txt
+
+
+
+
+path.win32 ====>
+نسخه‌ی مخصوص ویندوز از متدهای path رو برمی‌گردونه. حتی روی لینوکس هم می‌تونی ازش استفاده کنی برای سازگاری با ویندوز.
+console.log(path.win32.join('C:\\', 'foo', 'bar')); // C:\foo\bar
+
+

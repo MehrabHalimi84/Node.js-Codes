@@ -1,0 +1,167 @@
+ماژول fs (file System)
+
+برای استفاده از فایل ها
+
+
+
+
+fs.readFile / fs.readFileSync=====>
+خواندن محتوای فایل
+
+const fs = require('fs');
+
+fs.readFile('file.txt', 'utf8', (err, data) => {
+  if (err) throw err;
+  console.log('محتوا:', data);
+});
+
+const data = fs.readFileSync('file.txt', 'utf8');
+console.log('محتوا:', data);
+
+
+
+
+fs.writeFile / fs.writeFileSync=====>
+نوشتن روی فایل (در صورت وجود بازنویسی می‌شود)
+
+fs.writeFile('file.txt', 'سلام دنیا', (err) => {
+  if (err) throw err;
+  console.log('فایل نوشته شد');
+});
+
+fs.writeFileSync('file.txt', 'سلام دنیا');
+console.log('فایل نوشته شد');
+
+
+
+
+
+fs.appendFile / fs.appendFileSync=====>
+الحاق (اضافه‌کردن متن به انتهای فایل)
+
+fs.appendFile('file.txt', '\nخط جدید', (err) => {
+  if (err) throw err;
+  console.log('متن اضافه شد');
+});
+
+
+
+
+fs.mkdir / fs.mkdirSync=====>
+ایجاد پوشه جدید
+
+fs.mkdir('myFolder', (err) => {
+  if (err) throw err;
+  console.log('پوشه ساخته شد');
+});
+
+
+
+
+fs.readdir / fs.readdirSync=====>
+خواندن محتوای یک پوشه
+
+
+fs.readdir('./', (err, files) => {
+  if (err) throw err;
+  console.log('محتوای پوشه:', files);
+});
+
+
+
+
+
+fs.unlink / fs.unlinkSync=====>
+حذف فایل
+
+fs.unlink('file.txt', (err) => {
+  if (err) throw err;
+  console.log('فایل حذف شد');
+});
+
+
+
+
+
+
+fs.rmdir / fs.rmdirSync======>
+حذف یک پوشه خالی
+
+
+fs.rmdir('myFolder', (err) => {
+  if (err) throw err;
+  console.log('پوشه حذف شد');
+});
+
+اگر پوشه خالی نیست باید از fs.rm(..., { recursive: true }) استفاده کنی.
+
+
+
+
+
+
+fs.stat / fs.statSync=====>
+اطلاعات کامل فایل یا پوشه (سایز، تاریخ، نوع و...)
+
+
+fs.stat('file.txt', (err, stats) => {
+  if (err) throw err;
+  console.log('سایز فایل:', stats.size);
+  console.log('آیا فایل است؟', stats.isFile());
+});
+
+
+
+
+
+fs.stat / fs.statSync====>
+اطلاعات کامل فایل یا پوشه (سایز، تاریخ، نوع و...)
+
+
+fs.stat('file.txt', (err, stats) => {
+  if (err) throw err;
+  console.log('سایز فایل:', stats.size);
+  console.log('آیا فایل است؟', stats.isFile());
+});
+
+
+
+
+
+
+fs.existsSync====>
+بررسی وجود فایل یا پوشه
+
+
+if (fs.existsSync('file.txt')) {
+  console.log('فایل وجود دارد');
+} else {
+  console.log('فایل نیست');
+}
+
+
+
+
+
+fs.rename / fs.renameSync=====>
+تغییر نام یا جابجا کردن فایل یا پوشه
+
+fs.rename('old.txt', 'new.txt', (err) => {
+  if (err) throw err;
+  console.log('نام فایل تغییر کرد');
+});
+
+
+
+
+
+fs.copyFile======>
+کپی کردن فایل
+
+
+
+fs.copyFile('a.txt', 'b.txt', (err) => {
+  if (err) throw err;
+  console.log('فایل کپی شد');
+});
+

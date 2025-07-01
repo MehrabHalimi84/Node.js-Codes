@@ -1,0 +1,113 @@
+you can make now files in cmd with this command : mkdir file s name
+
+you can open vscode with this command after cd in file s name : code .
+
+if in terminal use =>  jshint newfolder.js  you can find error in your code
+
+important modules in node.js =>
+
+  File System  
+  HTTP
+  Operating System (OS) done
+  Path                  done
+  Process
+  Query Strings
+  Stream
+  
+  (nodejs.org)
+
+
+  for create package.json you just need use this : npm init --yes (use this in terminal)
+
+
+
+
+
+  درمورده گیت باید بگم که با فایل ماژول هایی که از ان پی ام دانلود کردیم زیاده داستان دار میشه اگه همه اونارو بدیم به گیت 
+  پس میایم یه فایل درست میکنیم اسمشو میزاریم 
+  .gitignore
+  بعد توی اون اسم فایل ماژول داری که میخوایم ایگنور شه رو اسمشو اینجوری مینویسیم
+  node_modules/
+
+
+
+  semantic versioning ===>> همجا دیدیم که یه همچین چیزی توی همه جا هست 
+
+  3.4.16  ===>   Major.Minor.Patch   
+  ورژن
+  Patch : اگه باگیی باشه رفع کنن یه دونه اضاف میشه 
+  Minor :اگه یه اپدیت درست حسابی بدن ولی ساختار کلی به هم نریزه یه دونه اضافه میشه
+  Major : اکه کلان ساختا رو عوض کنن
+
+
+
+^ توی ورژن ها این یعنی===> 
+این نسخع شاید دقیقا چیزی نویشته نباشه ولی صد در صد ماجورش همونه
+بالاتر تز Major اش نیست
+
+
+~  این یعنی توی ورژن ها===>
+این نسخه شاید دقیقا همین چیزی نوشته شده نباشه ولی صد در صد 
+major , Minorاش همونه
+
+
+حالا بخوایم دقیقا بفهمیم پکیج ما ورژنش چنده
+=====>
+
+npm list 
+
+این یه لیست درختی از همه پکیج ها به ما میده ولی دقیق چیزایی که ما استفاده کردیم رو بخوایم ببینیم فقط باید 
+
+npm list --depth=0
+
+
+
+npm view mongoose
+هر ورژنی که درموده منگو هستش رو میاره
+
+
+npm view mongoose  
+هر ورژن وابسته و مود نیاز رو میاره
+
+
+npm i -g npm-check-updates
+اپدیت میکنه همه پکیج هارو و بعد اون هم باید کامنده
+npm i 
+رو بزنیم تا نصب بشه 
+
+
+ncu -u 
+برای اپدیت خوده پکیج جیسون 
+
+
+
+jshint
+برای رفع خطا های اختاملی زمانه توسعه سر همونم توی پکیج جیسون توی devdependencies هستش
+
+
+برای حذف یه پکیچ هم از 
+npm un ............
+استفاده میکنیم
+
+
+npm account ===>
+usename : mehrabhalimi
+pass : sYzWt/2f4Se$4=z
+
+c703b36f5405083f289a821e8614c891e0d7fcdbc9d9e2a79651c03258d410ae
+1843acb5aa1a682c7106b64c1a33995c899d09a7b5c2d030e806196a1d448141
+58391d25e87ebb569c5965f152d5cf7cfcd10b5680c573d8bf135f3301bdfee0
+2339709b56b4297f60c774d61c4f8a5f8fee4f77f9770e04a05f95b4fbe39f3c
+3c77535c7ececc58f23aa0ebaeac3c3bcd914396d0a85c192d4888e8bd7c475c
+
+
+برای پابلیش کردن هم 
+npm publish
+
+برای اپدیت کردن پکیج خودتون 
+
+npm version Minor
+
+and
+
+npm publish

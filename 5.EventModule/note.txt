@@ -1,0 +1,15 @@
+| متد                                          | توضیح                                         | مثال                                  |
+| -------------------------------------------- | --------------------------------------------- | ------------------------------------- |
+| `on(event, listener)`                        | ثبت listener برای یک event                    | `emitter.on('event', cb)`             |
+| `emit(event, [...args])`                     | فعال کردن یک event و اجرای listener ها        | `emitter.emit('event')`               |
+| `once(event, listener)`                      | فقط یک بار listener اجرا می‌شود               | `emitter.once('event', cb)`           |
+| `off(event, listener)` یا `removeListener()` | حذف یک listener خاص                           | `emitter.off('event', cb)`            |
+| `removeAllListeners(event)`                  | حذف همه listenerهای یک event خاص              | `emitter.removeAllListeners('event')` |
+| `listenerCount(event)`                       | تعداد listener های ثبت‌شده برای یک event      | `emitter.listenerCount('event')`      |
+| `listeners(event)`                           | لیست همه listenerها را برمی‌گرداند            | `emitter.listeners('event')`          |
+| `eventNames()`                               | لیست نام تمام eventهایی که listener دارند     | `emitter.eventNames()`                |
+| `setMaxListeners(n)`                         | تعداد حداکثر listenerها برای جلوگیری از هشدار | `emitter.setMaxListeners(20)`         |
+
+
+
+

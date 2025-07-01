@@ -1,0 +1,13 @@
+
+in node.js
+
+console.log("سلام"); // به صورت پیش‌فرض کار می‌کند
+global.console.log("سلام از global"); // معادل است
+
+in browser
+
+console.log("سلام"); // به صورت پیش‌فرض کار می‌کند
+window.console.log("سلام از global"); // معادل است
+
+
+

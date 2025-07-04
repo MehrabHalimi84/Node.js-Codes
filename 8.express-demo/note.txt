@@ -1,0 +1,16 @@
+express 
+
+for more praperty
+
+expressjs.com
+
+ app.get();   گرفتن اطلاعات
+ app.post();   خواندن اطلاعات
+ app.put;        اپدیت اطلاعات
+ app.delete();  پاک کردن اطلاعات
+
+
+ const port = process.env.PORT || 3000; 
+ این یعنی این که اگه خوده سرور پورت خودشو تعیین کرده بود از اون استفاده کن اگر نه همون 3000
+
+

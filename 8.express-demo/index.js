@@ -38,10 +38,13 @@ app.post('/api/courses', (req, res) => {
         name: Joi.string().min(3).required()
     }
     const result = Joi.validate(req.body, schema);
+    // این خط کد میاد الگوی صحیح اسکیما رو با چیزی که پست شده مقایسه میکنه اگه درست بود حروجیش undifind 
     if (result.error) {
         res.status(400).send(result.error.details[0].message);
         return;
     }
+    // و در نهایت اگر خروجی ارور داشت ارور رو سند کنه
+
     const course = {
         id: courses.length + 1,
         name: req.body.name

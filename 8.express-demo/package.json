@@ -11,10 +11,12 @@
   "license": "ISC",
   "dependencies": {
     "config": "^4.0.0",
+    "debug": "^4.4.1",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
     "joi": "^17.13.3",
     "morgan": "^1.10.0",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "pug": "^3.0.3"
   }
 }

@@ -1,4 +1,6 @@
-const config = require('./config');
+const debug = require('debug')('app:startup');
+// const dbDbugger = require('debug')('app:db');
+const config = require('config');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const Joi = require('joi');
@@ -7,10 +9,19 @@ const express = require('express');
 const app = express();
 
 
+
+// Templating Engine
+
+app.set('view engine', 'pug'); // موتور قالب‌ساز را pug تنظیم می‌کند
+app.set('views', './views');   // مسیر فایل‌های .pug را مشخص می‌کند
+
+
+
+
 //Configuration
 console.log('Application Name: ' + config.get('name'));
 console.log('Mail Server: ' + config.get('mail.host'));
-console.log('Mail Password: ' + config.get('mail.password'));
+// console.log('Mail Password: ' + config.get('mail.password'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -22,6 +33,7 @@ app.use(helmet());
 
 if (app.get('env') === 'development') {
     app.use(morgan('tiny'));
+    debug('morgan enable....');
 }
 
 // 2 line of this txt is third-party middleware
@@ -39,7 +51,7 @@ const courses = [
 ]
 
 app.get('/', (req, res) => {
-    res.send('Hello World!!!!!');
+    res.render('index', { title: 'My Express App', message: 'Hello!' });
 });
 
 app.get('/api/courses', (req, res) => {
@@ -106,7 +118,7 @@ app.delete('/api/courses/:id', (req, res) => {
     if (!course) return res.status(404).send('The course with the given ID was not found!');
 
     const index = courses.indexOf(course);
-    courses.at.splice(index, 1);
+    courses.splice(index, 1);
     res.send(course);
 });
 

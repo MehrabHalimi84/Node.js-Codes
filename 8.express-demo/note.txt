@@ -147,3 +147,47 @@ process.env.NODE_ENV
 
 
 npm i config
+
+
+npm i debug 
+
+
+
+
+Templating Engine
+
+میشه HTML 
+رو رینامیک کرد با node.json
+
+با teampliting engine
+
+که چندین موتور داره اما بهترینش pug
+
+بخواین ست اپشکنی باید یه فایل بزنی به نام views
+توش یه اینکس با تگه pug
+index.pug
+
+توش html ینویسی
+ولی با این تفاوت که بدونه تگ 
+مثل این
+
+html 
+  head 
+    title= title 
+  body 
+    h1= message 
+
+    برای ست اپ کردنشم توی app.js آصلی
+
+    app.set('view engine', 'pug'); // موتور قالب‌ساز را pug تنظیم می‌کند
+app.set('views', './views');   // مسیر فایل‌های .pug را مشخص می‌کند
+
+درخواستمونم از app.res 
+میشه 
+app.render();
+
+app.get('/', (req, res) => {
+    res.render('index', { title: 'My Express App', message: 'Hello!' });
+});
+اینجوری
+

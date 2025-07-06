@@ -1,9 +1,22 @@
+const helmet = require('helmet');
+const morgan = require('morgan');
 const Joi = require('joi');
+const logger = require('./logger');
 const express = require('express');
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
+// 3 line of this txt is built in middleware 
+
+app.use(helmet());
+app.use(morgan());
+
+// 2 line of this txt is third-party middleware
+
+app.use(logger);
 const courses = [
     { id: 1, name: 'course1' },
     { id: 2, name: 'course2' },

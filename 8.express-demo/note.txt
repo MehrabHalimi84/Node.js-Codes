@@ -144,3 +144,6 @@ morgan میا بالا
 
 process.env.NODE_ENV
 این مارو میبره به محیط production
+
+
+npm i config

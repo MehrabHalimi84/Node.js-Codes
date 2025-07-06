@@ -12,11 +12,17 @@ app.use(express.static('public'));
 // 3 line of this txt is built in middleware 
 
 app.use(helmet());
-app.use(morgan());
+
+if (app.get('env') === 'development') {
+    app.use(morgan('tiny'));
+}
 
 // 2 line of this txt is third-party middleware
 
 app.use(logger);
+// custom middleware
+
+
 const courses = [
     { id: 1, name: 'course1' },
     { id: 2, name: 'course2' },

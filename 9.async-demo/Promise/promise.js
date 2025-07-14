@@ -49,7 +49,14 @@ console.log('Before');
 //         })
 //     })
 // });
-getUser(1, getRepositories);
+getUser(1)
+
+    .then(user => getRepositories(user.gitHubUsername))
+    .then(repos => getCommits([0]))
+    .then(commits => console.log('Commits'.commits))
+    .catch(err => console.log('Error', err.message));
+
+
 console.log('After');
 
 //
@@ -83,4 +90,40 @@ function getRepositories(usename) {
         }, 2000)
     })
 
-} 
+}
+
+// برای راحت نوشتنش هم
+
+const promises = Promise.resolve({ id: 1 });
+promises.then(result => console.log(result));
+
+// const promises = Promise.reject(new Error('reason for rejection...'));
+// promises.catch(err => console.log(err));
+
+
+
+const p1 = new Promise((resolve) => {
+    setTimeout(() => {
+        console.log('Async operation 1...');
+        resolve(1);
+    }, 2000);
+})
+
+const p2 = new Promise((resolve) => {
+    setTimeout(() => {
+        console.log('Async operation 2...')
+        resolve(2);
+    }, 2000);
+})
+
+Promise.all([p1, p2])
+    .then(result => console.log(result))
+    .catch(err => console.log('Error', err));
+
+// این حرکت باعث میشه که اگه ما میخواستیم نتیجه چند پرامیس  بعد از اونا یه اتفاقه دیگه بیوفته این کارو میکنیم 
+
+Promise.race([p1, p2])
+    .then(result => console.log(result))
+    .catch(err => console.log('Error', err));
+
+// این بهمون زود ترین پرامیس رو میده ارایه ریترن نمیکنه

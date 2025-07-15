@@ -1,0 +1,30 @@
+mongoose
+یه پکیج برای اتصال 
+node => mongoDB
+که ساده ترش میکنه 
+
+برای کانکت شدن به مانگو 
+
+mongoose.connect('mongodb://localhost/....)
+
+و برای بهتر شدن کد 
+   .then(() => console.log('Connected to MongoDB...'))
+    .catch(err => console.error('Could not connect to MongoDB...', err));
+    بهش اضافه میکنیم
+
+
+    schema چیه
+
+    اسکیما یه ابجکته که به ما این توانایی رو میده که اطلاعاتی که میخوایم توی دیتا بیس ذخیره بشن رو تایپ بندی بکنیم 
+
+    یعنی بگیم چه نوع اطلاعاتی اون تو هستش
+
+    const courseSchema = new mongoose.Schema({
+    name: String,
+    author: String,
+    tags: [String],
+    date: { type: Date, default: Date.now },
+    isPublished: Boolean
+});
+
+اینجوری میشه ازش استفاده کنیم

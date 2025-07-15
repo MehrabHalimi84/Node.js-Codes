@@ -28,3 +28,27 @@ mongoose.connect('mongodb://localhost/....)
 });
 
 اینجوری میشه ازش استفاده کنیم
+
+
+خب 
+برای ذخیره حذف اپدیت و خواندن که
+میشه همون 
+CRUD
+از دیتا بیس 
+نمیتونیم به تنها از اسکیما استفاده کنیم باید مدل کنیم همون ابجکت رو بعد دیگه میشه خیلی کارا کرد باهاش
+
+const Course = mongoose.model('Course', courseSchema);
+این خط اول به صورت یه کلاس اون رو مدل میکنه 
+بعد 
+
+
+const course = new Course({
+    name: 'Node.js Course',
+    author: 'Mehrab',
+    tags: ['node', 'backed'],
+    isPublished: true
+});
+
+یه ابجکت جدید دررست میکنه 
+و بعد دیگه میشه اینو هر کاری کرد 
+CRUD

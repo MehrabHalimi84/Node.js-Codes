@@ -62,3 +62,179 @@ const result = await course.save();
 و میزاریمش توی یه فانکشنه 
 async 
 چون نیازه که موازی این کد خونده بشه
+
+جالب اینه اگه اون کد رو که توی 
+index.js هست که 
+یه کورس جدید درست کردیم رو کامنت کنیم و یه دونه حدید بزنیم و بریم ببینیم توی دیتا بیس اون قبلی پاک نشده و هنوز هست
+
+
+
+
+
+quering in mongoDB
+
+
+.find(filter)                    	همه سندهایی که با شرط match می‌شن
+
+.findOne(filter)                 	فقط اولین سند که با شرط match می‌شه
+
+.findById(id)            	        سندی با id خاص
+
+.sort({ field: 1 or -1 })   	    مرتب‌سازی
+
+.limit(n)	                        محدود کردن تعداد نتایج
+
+.skip(n)	                        پرش از اولین n تا (مفید برای pagination)
+
+.select({ field: 1 })            	فقط فیلدهای خاص رو برگردون
+
+.countDocuments(filter)     	    تعداد نتایج مطابق شرط
+
+.or([{condition1}, {condition2}])	شرط OR
+
+.and([{cond1}, {cond2}])	        شرط AND
+
+.exists('field', true/false)	    بررسی وجود فیلد
+
+.where('field').gte(10).lte(20)   	فیلتر با عملگرهای مقایسه‌ای
+
+
+
+more fillter
+
+
+async function getCourses() {
+    // eq (equal)
+    // ne (not equal)
+    // gt (greater than)
+    // gte(greater than or equal to)
+    // lt (less than)
+    // lte(less than or equal to)
+    // in
+    // nin(not in )
+
+
+    const courses = await Course
+        // .find({ price: { $gt: 10 } })
+        // .find({ price: { $gte: 10, lte: 20 } })
+        .find({ price: { $in: [10, 20, 30, 50] } })
+        .limit(10)
+        .sort({ name: 1 })
+        .select({ name: 1, tags: 1 });
+    console.log(courses);
+}
+
+خب ما مثال میزنیم که اگه توی داکیومنتی که ما درست کردیم و گذاشتیمش توی دیتا بیس نیاز داشت به گرفته شدن و نیاز به این بود اونو فیلتر کنیم 
+میشه از این فیلتر های بالا کمک بگیریم
+
+که میشه از کومپریسون ها کمک گرفت 
+که همشونو بالا کامنت کردیم
+
+
+
+logical operator fillters
+
+and 
+
+or
+
+
+async function getCourses() {
+    const courses = await Course
+        .find()
+        .and([{ author: "Mehrab" }, { isPublished: true }])
+        .or()
+        .limit(10)
+        .sort({ name: 1 })
+        .select({ name: 1, tags: 1 });
+    console.log(courses);
+}
+
+ساختارشون اینجوریه
+
+.and([ {} , {} , {} , ...]);
+
+یعنی یه ارایه که داخل برای شرط ها یه ابجکت بزاریم
+
+.find({ author: 'Mehrab', isPublished: true })
+خوده این به تنهایی حکم یه and رو داره
+
+ولی بهتره همون از and 
+آستفاده بشه
+و وقتیم که استفاده مکنیم باید دیگه داخل پرانتز فایند خالی باشه
+
+Regular Expressions
+
+فیلتر بندی از رشته ها 
+
+
+async function getCourses() {
+    const courses = await Course
+        // Starts with Mehrab
+        .find({ author: /^Mehrab/ })
+        // Ends with Halimi
+        .find({ author: /Halimi$/i })
+        // Contains Mosh
+        .find({ author: /.*mehrab.*/i })
+        .limit(10)
+        .sort({ name: 1 })
+        .select({ name: 1, tags: 1 });
+    console.log(courses);
+}
+
+.find({ author: /^Mehrab/ })  
+اون فیلدی که رشته اش با مهراب شروع شه 
+
+.find({ author: /Halimi$/i })
+اون فیلدی که رشته اش با حلیمی تموم شه
+
+.find({ author: /.*mehrab.*/i })
+اون فیلدی که رشته اش به نام مهراب هر کاری از رشته باشه (فقط باشه)
+
+i هم حساست به آپرکیس بودن یا نبودنه 
+که بزاریش میشه حساس نباش
+
+دیفالت حساس هستش پس
+
+counting ducoument 
+
+به جای متود سلکت میایم متود 
+count()
+استفاده میکنیم که بهمون نه اون داکیومند هارو بده 
+بهمون تعداد اون داکیومنتی هایی که با فیلتر میخونن رو بده 
+
+
+async function getCourses() {
+    const courses = await Course
+        .find()
+        .and([{ author: "Mehrab" }, { isPublished: true }])
+        .or()
+        .limit(10)
+        .sort({ name: 1 })
+        .count()                  // result => 2
+    console.log(courses);
+}
+
+
+// Pagination
+
+
+async function getCourses() {
+    const pageNumber = 2;
+    const pageSize = 10;
+
+    const courses = await Course
+        .find({ author: 'Mehrab', isPublished: true })
+        .skip((pageNumber - 1) * pageSize)                 ====> فرمول
+        .limit(pageSize)
+        .sort({ name: 1 })
+        .select({ name: 1, tags: 1 });
+    console.log(courses);
+}
+
+متود اسکیپ اینجا نقش محدود کننده ریسپانسیو رو داره که میگه
+
+من صفحه اول یه مقدار میخوام دیتا بززارم به نمایش 
+بقیه تقسیم بشن به صفحه های دیگه 
+
+حالا با یه فرمول ساده این کار رو انجام میدیم 

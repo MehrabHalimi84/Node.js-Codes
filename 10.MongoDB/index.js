@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/playground')
     .then(() => console.log('Connected to MongoDB...'))
@@ -14,21 +14,22 @@ const courseSchema = new mongoose.Schema({
 
 const Course = mongoose.model('Course', courseSchema);
 
+// create ducoument
 
-// async function createCourse() {
-//     const course = new Course({
-//         name: 'Node.js Course',
-//         author: 'Mehrab',
-//         tags: ['node', 'backend'],
-//         isPublished: true
-//     });
+async function createCourse() {
+    const course = new Course({
+        name: 'Node.js Course',
+        author: 'Mehrab',
+        tags: ['node', 'backend'],
+        isPublished: true
+    });
 
-//     const result = await course.save();
-//     console.log(result);
+    const result = await course.save();
+    console.log(result);
 
-// }
+}
 
-// createCourse()
+createCourse()
 
 async function createCourse() {
     const course = new Course({
@@ -43,4 +44,101 @@ async function createCourse() {
 
 }
 
-createCourse()
+//quering ducoument
+
+async function getCourses() {
+    const courses = await Course
+        .find({ author: 'Mehrab', isPublished: true })
+        .limit(10)
+        .sort({ name: 1 })
+        .select({ name: 1, tags: 1 });
+    console.log(courses);
+}
+
+createCourse();
+
+// comparison query
+
+
+async function getCourses() {
+    // eq (equal)
+    // ne (not equal)
+    // gt (greater than)
+    // gte(greater than or equal to)
+    // lt (less than)
+    // lte(less than or equal to)
+    // in
+    // nin(not in )
+
+
+    const courses = await Course
+        // .find({ price: { $gt: 10 } })
+        // .find({ price: { $gte: 10, lte: 20 } })
+        .find({ price: { $in: [10, 20, 30, 50] } })
+        .limit(10)
+        .sort({ name: 1 })
+        .select({ name: 1, tags: 1 });
+    console.log(courses);
+}
+
+// Logical Query
+
+async function getCourses() {
+    const courses = await Course
+        .find()
+        .and([{ author: "Mehrab" }, { isPublished: true }])
+        .or()
+        .limit(10)
+        .sort({ name: 1 })
+        .select({ name: 1, tags: 1 });
+    console.log(courses);
+}
+
+
+getCourses();
+
+// Regular Expressions
+
+async function getCourses() {
+    const courses = await Course
+        // Starts with Mehrab
+        .find({ author: /^Mehrab/ })
+        // Ends with Halimi
+        .find({ author: /Halimi$/i })
+        // Contains Mosh
+        .find({ author: /.*mehrab.*/i })
+        .limit(10)
+        .sort({ name: 1 })
+        .select({ name: 1, tags: 1 });
+    console.log(courses);
+}
+
+//counting ducoument 
+
+async function getCourses() {
+    const courses = await Course
+        .find()
+        .and([{ author: "Mehrab" }, { isPublished: true }])
+        .or()
+        .limit(10)
+        .sort({ name: 1 })
+        .count()                  // result => 2
+    console.log(courses);
+}
+
+
+// Pagination
+
+
+async function getCourses() {
+    const pageNumber = 2;
+    const pageSize = 10;
+
+    const courses = await Course
+        .find({ author: 'Mehrab', isPublished: true })
+        .skip((pageNumber - 1) * pageSize)
+        .limit(pageSize)
+        .sort({ name: 1 })
+        .select({ name: 1, tags: 1 });
+    console.log(courses);
+}

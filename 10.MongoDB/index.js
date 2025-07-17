@@ -146,7 +146,7 @@ async function getCourses() {
 
 // Updating Docoument (Query First)
 
-async function updateCourses(id) {
+async function updateCourse(id) {
     const course = await Course.findById(id);
     if (!course) return;
 
@@ -157,13 +157,13 @@ async function updateCourses(id) {
     console.log(result);
 }
 
-updateCourses('6876a2992b9ce00daea46dc9');
+updateCourse('6876a2992b9ce00daea46dc9');
 
 
 
 // Updating Docoument (Update First)
 
-async function updateCourses(id) {
+async function updateCourse(id) {
     const course = await Course.findByIdAndUpdate(id, {
         $set: {
             author: 'Jason',
@@ -173,4 +173,16 @@ async function updateCourses(id) {
     console.log(course)
 }
 
-updateCourses('6876a2992b9ce00daea46dc9');
+updateCourse('6876a2992b9ce00daea46dc9');
+
+
+// Delete Docoument
+
+
+async function deleteCourse(id) {
+    // const result = await Course.deleteMany({ _id: id });
+    const course = await Course.findByIdAndRemove(id);
+    console.log(course) // => result = null
+}
+
+deleteCourse('6876a2992b9ce00daea46dc9');

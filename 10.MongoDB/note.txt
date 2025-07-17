@@ -352,3 +352,61 @@ update methods
 ✅ 3. متدهای Bulk و خاص (کمتر استفاده‌شده ولی قدرتمند)
 ✔ Model.bulkWrite(operationsArray)
 برای اجرای چند آپدیت/اینزرت/حذف پشت سر هم (مثلاً در یک حلقه).
+
+
+
+Delete Docoument
+
+
+1. متدهای سریع و مستقیم (Direct Delete Methods)
+برای حذف مستقیم از دیتابیس بر اساس شرط
+
+✔ Model.deleteOne(filter)
+اولین داکیومنتی که به شرط می‌خوره رو حذف می‌کنه.
+
+خروجی شامل تعداد داکیومنت حذف‌شده است.
+
+
+await Product.deleteOne({ _id: 'id1' });
+✔ Model.deleteMany(filter)
+تمام داکیومنت‌هایی که شرط رو دارن، حذف می‌کنه.
+
+سریع و مناسب حذف دسته‌جمعی.
+
+
+await Product.deleteMany({ category: 'old' });
+✅ 2. متدهای همراه با بازگرداندن داکیومنت (Find & Delete)
+قبل از حذف، داکیومنت رو پیدا می‌کنن و بعد حذف می‌کنن.
+
+✔ Model.findByIdAndDelete(id)
+داکیومنت رو با id پیدا می‌کنه و حذف می‌کنه.
+
+خروجی: داکیومنت حذف‌شده رو برمی‌گردونه.
+
+
+const deleted = await Product.findByIdAndDelete('id1');
+console.log(deleted);
+✔ Model.findOneAndDelete(filter)
+مشابه بالاست ولی بر اساس یک شرط خاص حذف می‌کنه.
+
+خروجی: داکیومنت حذف‌شده.
+
+
+await Product.findOneAndDelete({ title: 'Old Product' });
+✅ 3. روش داکیومنت‌محور (Document-based Delete)
+وقتی که قبلاً داکیومنت رو گرفته‌ای و می‌خوای حذفش کنی
+
+✔ doc.remove()
+فقط روی داکیومنت‌هایی که قبلاً با find() یا findById() گرفتی قابل اجراست.
+
+مناسب وقتی می‌خوای قبل از حذف، کارهای دیگه هم انجام بدی (یا middleware اجرا بشه).
+
+
+const product = await Product.findById(id);
+await product.remove();
+✅ 4. متد جدیدتر: delete() (روی Document)
+در نسخه‌های جدید Mongoose اضافه شده، شبیه remove() عمل می‌کنه.
+
+
+const product = await Product.findById(id);
+await product.delete();  // یا await product.deleteOne();

@@ -14,7 +14,7 @@ const courseSchema = new mongoose.Schema({
 
 const Course = mongoose.model('Course', courseSchema);
 
-// create ducoument
+// create docoument
 
 async function createCourse() {
     const course = new Course({
@@ -44,7 +44,7 @@ async function createCourse() {
 
 }
 
-//quering ducoument
+//quering docoument
 
 async function getCourses() {
     const courses = await Course
@@ -113,7 +113,7 @@ async function getCourses() {
     console.log(courses);
 }
 
-//counting ducoument 
+// counting docoument 
 
 async function getCourses() {
     const courses = await Course
@@ -142,3 +142,35 @@ async function getCourses() {
         .select({ name: 1, tags: 1 });
     console.log(courses);
 }
+
+
+// Updating Docoument (Query First)
+
+async function updateCourses(id) {
+    const course = await Course.findById(id);
+    if (!course) return;
+
+    course.isPublished = true;
+    course.author = 'Another Author';
+
+    const result = await course.save();
+    console.log(result);
+}
+
+updateCourses('6876a2992b9ce00daea46dc9');
+
+
+
+// Updating Docoument (Update First)
+
+async function updateCourses(id) {
+    const course = await Course.findByIdAndUpdate(id, {
+        $set: {
+            author: 'Jason',
+            isPublished: false
+        }
+    }, { new: true })
+    console.log(course)
+}
+
+updateCourses('6876a2992b9ce00daea46dc9');

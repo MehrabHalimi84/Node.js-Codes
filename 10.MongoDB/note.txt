@@ -238,3 +238,13 @@ async function getCourses() {
 بقیه تقسیم بشن به صفحه های دیگه 
 
 حالا با یه فرمول ساده این کار رو انجام میدیم 
+
+
+
+نکته 
+برای اسنفاده از 
+and & or با هم داخله فایند
+
+باید اینجوری کد زد
+ .find({
+    $and: [{ inStock: true },{ price: { $gt: 30 } },{ discount: { $gte: 1 } },{$or: [{ tags: 'kitchen' },{ tags: 'gaming' }]}]})

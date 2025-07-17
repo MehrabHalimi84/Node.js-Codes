@@ -218,25 +218,29 @@ const Product = mongoose.model('Product', productSchema);
 
 async function getProduct() {
     const products = await Product
-        .find()
-        .and([
-            { inStock: true },
-            { price: { $gt: 30 } },
-            { discount: { $gte: 1 } }
-        ])
-        .or([
-            { tags: 'kitchen' },
-            { tags: 'gaming' }
-        ])
+        .find({
+            $and: [
+                { inStock: true },
+                { price: { $gt: 30 } },
+                { discount: { $gte: 1 } },
+                {
+                    $or: [
+                        { tags: 'kitchen' },
+                        { tags: 'gaming' }
+                    ]
+                }
+            ]
+        })
         .select({
-            tags: 1,
-            discount: 1,
+            title: 1,
             price: 1,
-            title: 1
+            discount: 1,
+            tags: 1
         })
         .sort({ price: -1 })
         .limit(5);
+
     console.log(products);
 }
 
-getProduct();
+getProduct()

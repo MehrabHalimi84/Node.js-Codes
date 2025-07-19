@@ -232,3 +232,13 @@ async function deleteCourse(id) {
 }
 
 deleteCourse('6876a2992b9ce00daea46dc9');
+
+// Better Delete Function
+
+async function deleteCourse(id) {
+    const course = await Course.findById(id);
+    if (!course) return console.log("Course not found.");
+
+    const deleted = await Course.findByIdAndRemove(id);
+    console.log("Deleted:", deleted);
+}

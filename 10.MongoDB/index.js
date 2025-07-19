@@ -11,6 +11,9 @@ const courseSchema = new mongoose.Schema({
         minlength: 5,
         maxlength: 255,
         // match : /pattern/
+        trim: true,
+        lowercase: true,
+        uppercase: true
     },
     category: {
         type: String,
@@ -47,7 +50,9 @@ const courseSchema = new mongoose.Schema({
         type: Number,
         function() { return this.isPublished },
         min: 10,
-        max: 200
+        max: 200,
+        get: v => Math.round(v),
+        set: v => Math.round(v)
     }
 });
 

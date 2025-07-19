@@ -465,3 +465,30 @@ required : true ;
 نداره اینجا 
  type: Array 
  این همون کارو میکنه وقتی ارایه ای وجود نداشته باشه یا null باشه
+
+
+
+
+ Async Valodators
+
+اولا که فقط توی custom validator ها هست
+چون built in ها خودشون دارن 
+
+ tags: {
+        type: Array,
+        validate: {
+            validator: function (v, callback) {
+                setTimeout(() => {
+                    const result = v && v.length > 0;
+                    callback(result);
+                }, 3000)
+            },
+            message: 'A course should have at least one tag' // message: props => `Invalid tags: "${props.value}". You must provide at least one tag.` (better code)
+        }
+    },
+
+    mosh با callback رفته
+    ولی با 
+    async await هم میشه
+
+ 

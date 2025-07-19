@@ -18,11 +18,23 @@ const courseSchema = new mongoose.Schema({
         enum: ['web', 'mobile', 'network']
     },
     author: String,
+    // tags: {
+    //     type: Array,
+    //     validate: {
+    //         validator: function (v) {
+    //             return v && v.length > 0;
+    //         },
+    //         message: 'A course should have at least one tag' // message: props => `Invalid tags: "${props.value}". You must provide at least one tag.` (better code)
+    //     }
+    // },
     tags: {
         type: Array,
         validate: {
-            validator: function (v) {
-                return v && v.length > 0;
+            validator: function (v, callback) {
+                setTimeout(() => {
+                    const result = v && v.length > 0;
+                    callback(result);
+                }, 3000)
             },
             message: 'A course should have at least one tag' // message: props => `Invalid tags: "${props.value}". You must provide at least one tag.` (better code)
         }

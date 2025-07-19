@@ -30,15 +30,14 @@ const courseSchema = new mongoose.Schema({
     tags: {
         type: Array,
         validate: {
-            validator: function (v, callback) {
-                setTimeout(() => {
-                    const result = v && v.length > 0;
-                    callback(result);
-                }, 3000)
+            validator: async function (v) {
+                await new Promise(resolve => setTimeout(resolve, 3000));
+                return v && v.length > 0;
             },
-            message: 'A course should have at least one tag' // message: props => `Invalid tags: "${props.value}". You must provide at least one tag.` (better code)
+            message: 'A course should have at least one tag'
         }
     },
+
     date: {
         type: Date,
         default: Date.now
@@ -55,13 +54,14 @@ const courseSchema = new mongoose.Schema({
 const Course = mongoose.model('Course', courseSchema);
 
 // create docoument
+// Most Important doc
 
 async function createCourse() {
     const course = new Course({
-        name: 'Node.js Course',
+        name: 'Node.js course',
         author: 'Mehrab',
         category: 'mobile',
-        tags: ['node', 'backend'],
+        tags: ['backend', 'Node'],
         isPublished: true
     });
     try {
@@ -69,7 +69,9 @@ async function createCourse() {
         console.log(result);
     }
     catch (err) {
-        console.log(err.message);
+        for (let field in err.errors) {
+            console.log(err.errors[field].message);
+        }
     }
 }
 
@@ -88,7 +90,7 @@ async function createCourse() {
 
 }
 
-//quering docoument
+// quering docoument
 
 async function getCourses() {
     const courses = await Course
@@ -157,7 +159,7 @@ async function getCourses() {
     console.log(courses);
 }
 
-// counting docoument 
+// counting docoument
 
 async function getCourses() {
     const courses = await Course
@@ -188,7 +190,7 @@ async function getCourses() {
 }
 
 
-// Updating Docoument (Query First)
+// Updating Docoument(Query First)
 
 async function updateCourse(id) {
     const course = await Course.findById(id);
@@ -205,7 +207,7 @@ updateCourse('6876a2992b9ce00daea46dc9');
 
 
 
-// Updating Docoument (Update First)
+// Updating Docoument(Update First)
 
 async function updateCourse(id) {
     const course = await Course.findByIdAndUpdate(id, {

@@ -440,4 +440,28 @@ await product.delete();  // یا await product.deleteOne();
 
  enum: ['web', 'mobile', 'network']        =============================>   این میشه وروردی حتما باید یکی از این رشته ها باشه که تو این ارایه هست
 
- 
+
+ Custom Validator
+
+  tags: {
+        type: Array,
+        validate: {
+            validator: function (v) {
+                return v && v.length > 0;
+            },
+            message: 'A course should have at least one tag' // message: props => `Invalid tags: "${props.value}". You must provide at least one tag.` (better code)
+        }
+    }
+
+    اینجا ما خودمون یه ولیدیتور درست میکنیم 
+
+همه ولیدیتور ها ساخته شدن از یه ولیدیتور و مسیج اون ولیدیتور وقتی به ارور میخوره 
+
+پس اینجا هم دو تا پرامتر داره 
+message & validator
+
+نکته اینه که 
+required : true ;
+نداره اینجا 
+ type: Array 
+ این همون کارو میکنه وقتی ارایه ای وجود نداشته باشه یا null باشه

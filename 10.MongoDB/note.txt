@@ -409,4 +409,35 @@ await product.remove();
 
 
 const product = await Product.findById(id);
-await product.delete();  // یا await product.deleteOne();
+await product.delete();  // یا await product.deleteOne(); 
+ 
+
+
+ Validation
+
+یکی از بیسیک ترین ولیدیشن‌های خوده مانگو اینه
+ name : { type : String , required : true}  ;      =============>    باید حتما name وجود داشته باشه خالی نباشه 
+
+ ما کلان هم از Joi هم ماله خوده مانگو استفاده میکنیم
+
+ و دیگه از این به بعد async functionهامون
+
+ به دو دسته ی 
+ try {
+
+ }
+ catch (err ){
+
+ }
+ تقسیم میشه 
+
+
+
+  function() { return this.isPublished }    ============================> وابسته بودن به یه فیلد دیگه 
+                                                                        تا (isPublished === true) نباشه وجود نباید داشته باشه
+
+
+
+ enum: ['web', 'mobile', 'network']        =============================>   این میشه وروردی حتما باید یکی از این رشته ها باشه که تو این ارایه هست
+
+ 

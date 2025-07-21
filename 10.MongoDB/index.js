@@ -173,7 +173,7 @@ async function getCourses() {
         .or()
         .limit(10)
         .sort({ name: 1 })
-        .count()                  // result => 2
+        .countDocuments()                 // result => 2
     console.log(courses);
 }
 

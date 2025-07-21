@@ -97,7 +97,19 @@ async function createProduct() {
 }
 
 
-createProduct()
+createProduct();
+
+
+async function deleteProduct(id) {
+    const product = await Product.findById(id);
+    if (!product) return console.log("Product not found.");
+
+    const deleted = await Product.findByIdAndDelete(id);
+
+    console.log("Deleted:", deleted);
+}
+
+deleteProduct('687ce047c3941c4174fed707');
 
 // async function createProduct() {
 //     const product = new Product({

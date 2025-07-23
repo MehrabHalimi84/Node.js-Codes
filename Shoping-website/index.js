@@ -9,7 +9,7 @@ mongoose.connect('mongodb://localhost/shopWeb')
 
 
 
-const productSchema = new mongoose.Schema({
+const Product = mongoose.model('Product', new mongoose.Schema({
     title: {
         type: String,
         trim: true,
@@ -57,9 +57,7 @@ const productSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-});
-
-const Product = mongoose.model('Product', productSchema);
+}));
 
 app.use(express.json());
 

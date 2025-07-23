@@ -19,12 +19,12 @@ const Product = mongoose.model('Product', new mongoose.Schema({
     },
     category: {
         type: String,
-        trim: true,
+        trim: true
     },
     price: {
         type: Number,
         min: 10,
-        max: 500,
+        max: 500
     },
     inStock: Boolean,
     discount: {
@@ -45,7 +45,7 @@ const Product = mongoose.model('Product', new mongoose.Schema({
     seller: {
         name: {
             type: String,
-            trim: true,
+            trim: true
         },
         rating: {
             type: Number,

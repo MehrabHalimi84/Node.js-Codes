@@ -598,3 +598,29 @@ await new Fawn.Task()
 
   و در اخر هم اینو مینویسیم که ران شه 
   .run();
+
+
+
+ObjectID
+
+ما میتونیم خودمون به طور دستی برای یه داکیومت ایدی درست کنیم 
+ولی بهتره همون بزاری مانگو خودش اتومات بسازه
+
+const id = new mongoose.Types.ObjectId();
+
+اینجوری هم بفهمیم درسته یا نه
+const isValid = mongoose.Types.ObjectId.isValid('1234');
+console.log(isValid);
+ولی با Joi 
+بهتره
+
+
+
+ObjectID  Validation
+
+ npm i joi-objectid
+
+Joi.ObjectId = require('joi-objectid')(Joi);
+
+
+customer.Id : Joi.objectId().required()

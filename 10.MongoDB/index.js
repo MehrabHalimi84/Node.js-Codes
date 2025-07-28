@@ -312,3 +312,34 @@ async function transfer(fromId, toId, amount) {
         console.error("❌ Transaction failed", err);
     }
 }
+
+
+// ObjectID
+
+const id = new mongoose.Types.ObjectId();
+console.log(id.getTimestamp());
+
+const isValid = mongoose.Types.ObjectId.isValid('1234');
+console.log(isValid);
+
+// _id: 6876a2992b9ce00daea46dc9
+
+// 12 bytes
+//   4 bytes : timestamp
+//   3 bytes : machine identifier
+//   2 bytes : process identifier
+//   3 bytes : counter
+
+
+// 1 bytes = 8 bits
+// 2 ^ 8 = 256
+// 2 ^ 24 = 16M
+
+// Driver -> MongoDB
+
+
+
+// ObjectID  Validation
+
+
+Joi.ObjectId = require('joi-objectid')(Joi);

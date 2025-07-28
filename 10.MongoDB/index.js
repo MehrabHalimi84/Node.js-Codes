@@ -247,3 +247,41 @@ async function deleteCourse(id) {
     const deleted = await Course.findByIdAndRemove(id);
     console.log("Deleted:", deleted);
 }
+
+// Trade off between query performance vs consistency
+
+// using refrences (Normalization) -> CONSISTENCY
+
+let author = {
+    name: 'Mehrab Halimi'
+}
+
+let course = {
+    author: 'id'
+}
+
+populate()
+
+
+// Using Embedded Documents (Denormalization) -> PERFORMANCE
+
+let course1 = {
+    author: {
+        name: 'Mehrab Halimi'
+    }
+}
+
+// Hybrid 
+
+let author1 = {
+    name: 'Mehrab Halimi'
+    // 50 ither properties
+}
+
+let course2 = {
+    author: {
+        id: 'ref',
+        name: 'Mehrab Halimi'
+    }
+}
+

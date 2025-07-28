@@ -539,3 +539,62 @@ Embedded (غیر نرمال‌سازی)	Performance بالا	Redundancy و risk 
 Hybrid	تعادل بین عملکرد و ثبات	نیاز به مدیریت دستی sync	استفاده از فیلدهای پرکاربرد همراه با ID
 
  
+
+Transaction
+
+کلان برای زمانایی که یه سری حرکاته 
+CRUD
+با هم وایسته هستن 
+مثلا تراکنش 
+
+ما توی تراکنش نیاز داریم مرحله کم کردنه پول از حساب با موفقیت انجام شه هم مرحله اضافه شدن به حساب جدید 
+سر همین موضوع نیاز داریم هر دو مرحله درست انجام بشه 
+
+پس اگه یکی از محله ها به مشکل بخوره با 
+Transaction
+درست میشه 
+
+اول باید کتابخونه 
+
+fawn دانلود شه
+
+npm i fawn
+
+
+const Fawn = require("fawn");
+Fawn.init(mongoose);
+
+await new Fawn.Task()
+  .save(collectionName, doc)	ذخیره یک داکیومنت جدید (مثل .save() در Mongoose)
+  .update(collectionName, query, updateObj)	بروزرسانی داکیومنت‌ها (مثل updateOne/updateMany)
+  .remove(collectionName, query)	حذف داکیومنت‌ها (مثل deleteOne/deleteMany)
+  .run()	اجرای نهایی همه عملیات‌ها
+
+توی بلاکه try {}
+انجام میشه 
+
+بجای اینجوری ساده باشه 
+
+const result = await course.save();
+
+به جاش
+
+await new Fawn.Task()
+  .save("transactions", new Transaction({...})) // اول ذخیره تراکنش
+  .update("accounts", { _id: fromId }, { $inc: { balance: -100 } }) // بعد کم کردن پول
+  .update("accounts", { _id: toId }, { $inc: { balance: +100 } })   // بعد اضافه کردن پول
+  .run();
+
+  save() اول یه نسخه از اون روند که اپدیت یه سیو چه هر چیزی که با دیتا انجام میدیم رو نگه میداره
+  یه جورایی بهش میگیم میخوام این رو سیو کنی و بهش اون فانکشه هم میدیم
+
+  update()
+  حالا به اینا اول یه ایدی اون دیتا داکیومتمونو میدیم که میخوا تغییر کنه 
+  { _id: fromId }
+
+  با اینم اون فیلدی که میخوام تغییر کنه رو مینویسیم 
+  $inc
+  { $inc: { balance: -100 } }
+
+  و در اخر هم اینو مینویسیم که ران شه 
+  .run();

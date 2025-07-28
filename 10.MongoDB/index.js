@@ -285,3 +285,30 @@ let course2 = {
     }
 }
 
+
+//  Transaction
+
+
+const Fawn = require("fawn");
+Fawn.init(mongoose);
+
+async function transfer(fromId, toId, amount) {
+    const transaction = new Transaction({
+        from: fromId,
+        to: toId,
+        amount,
+        date: new Date()
+    });
+
+    try {
+        await new Fawn.Task()
+            .update("accounts", { _id: fromId }, { $inc: { balance: -amount } })
+            .update("accounts", { _id: toId }, { $inc: { balance: amount } })
+            .save("transactions", transaction)
+            .run();
+
+        console.log("✔ Transaction successful");
+    } catch (err) {
+        console.error("❌ Transaction failed", err);
+    }
+}

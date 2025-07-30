@@ -62,6 +62,8 @@ lodash یه پکیج برای ساده تر کردن کد
 متود های قابل استفاده در 
 lodash
 
+npm i lodash
+
 کار با Objectها:
 متد	توضیح
 _.pick(obj, keys)	فقط کلیدهای خاصی از یک آبجکت رو برمی‌داره
@@ -103,3 +105,31 @@ user = new User(_.pick(req.body, ['name', 'email', 'password'])); // gooooood
         email: req.body.email,
         password: req.body.password,
     });
+
+
+    Hashing password
+
+  هش کردن رمز ورود
+  به هکر اجازه نمیده پسوورد اصلیه کاربران رو بفهمه و سو استفاده کنه حتی اگه دیتا بیس رو هک کنه 
+
+  یه جورای ازرشته رمز کاربر یه رشته ی تصادفی درست میکنه که توی دیتا بیس خوده رمز اصلی سیو نشه اون سیو بشه
+
+    npm i bcrypt
+
+
+    const salt = await bcrypt.gensalt(10);
+به این میگن تولید salt
+نمک 
+
+اول یه زمر تصادفی درست میکنیم که اون ده که توی قسمت ارگومنت هر چی بیشتر بشه امنیتش بیشتر میه اما کند تر بهتریش 10
+
+بعد
+
+user.password = await bcrypt.hash(user.password, salt);
+حالا یوزر پسی که گرفتیم رو هش میکنیم
+
+
+
+const validPassword = await bcrypt.compare(req.body.password, user.password);
+ اینم برای لاگینه که زمانه ورورد رمز اولی رو مقایسه کنه با رمزه هش شده که ببینه درسته یا نه
+ 

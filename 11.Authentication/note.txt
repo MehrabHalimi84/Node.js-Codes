@@ -1,0 +1,57 @@
+یه اسکیمای خوب برای یوزر
+
+const mongoose = require('mongoose');
+
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    minlength: 2,
+    maxlength: 50
+  },
+
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+    match: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/, // regex برای ایمیل
+    maxlength: 100
+  },
+
+  password: {
+    type: String,
+    required: true,
+    minlength: 8,  // حداقل امنیت
+    maxlength: 1024 // چون رمز هش‌شده طولانی می‌شه
+  },
+
+  phone: {
+    type: String,
+    match: /^(\+98|0)?9\d{9}$/,  // شماره موبایل ایرانی
+    maxlength: 15
+  },
+
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
+
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user'
+  },
+
+  address: {
+    type: String,
+    maxlength: 500
+  },
+
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+module.exports = mongoose.model('User', userSchema);

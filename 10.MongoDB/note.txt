@@ -77,7 +77,7 @@ quering in mongoDB
 .find(filter)                    	همه سندهایی که با شرط match می‌شن
 
 .findOne(filter)                 	فقط اولین سند که با شرط match می‌شه
-
+(این به درد وقتی میخوره که میخوای مثلا با اسم یا ایمیل طرف تو داکیومنت ها پیداش کنی)
 .findById(id)            	        سندی با id خاص
 
 .sort({ field: 1 or -1 })   	    مرتب‌سازی

@@ -55,3 +55,51 @@ const userSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('User', userSchema);
+
+
+lodash یه پکیج برای ساده تر کردن کد
+
+متود های قابل استفاده در 
+lodash
+
+کار با Objectها:
+متد	توضیح
+_.pick(obj, keys)	فقط کلیدهای خاصی از یک آبجکت رو برمی‌داره
+_.omit(obj, keys)	همه کلیدها به‌جز کلیدهای داده‌شده
+_.has(obj, key)	بررسی می‌کنه آیا آبجکت اون کلید رو داره یا نه
+_.get(obj, 'a.b.c')	گرفتن مقدار از عمق زیاد آبجکت بدون خطا
+_.set(obj, 'a.b.c', value)	ست کردن مقدار در عمق خاصی از آبجکت
+
+📌 کار با Arrayها:
+متد	توضیح
+_.uniq(array)	حذف مقادیر تکراری
+_.flatten(array)	تخت کردن آرایه یک‌سطحی
+_.chunk(array, size)	تقسیم آرایه به بخش‌های کوچکتر
+_.difference(a, b)	آیتم‌هایی که در a هستند ولی در b نیستند
+_.intersection(a, b)	آیتم‌هایی که در هر دو آرایه هستند
+_.orderBy(array, [key], [order])	مرتب‌سازی با چند کلید و ترتیب (مثل SQL)
+
+📌 کار با String:
+متد	توضیح
+_.capitalize(str)	حرف اول رو بزرگ می‌کنه
+_.kebabCase(str)	تبدیل به kebab-case
+_.camelCase(str)	تبدیل به camelCase
+_.snakeCase(str)	تبدیل به snake_case
+
+📌 Utility (عمومی):
+متد	توضیح
+_.isEmpty(obj)	چک می‌کنه خالیه یا نه (برای object, array, string...)
+_.cloneDeep(obj)	کپی عمیق از آبجکت یا آرایه
+_.debounce(func, delay)	کنترل فرکانس اجرا (مثلاً برای سرچ)
+_.merge(obj1, obj2)	ترکیب دو آبجکت (عمیق)
+
+
+
+user = new User(_.pick(req.body, ['name', 'email', 'password'])); // gooooood
+این برابر اینه
+
+ let user = new User({
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+    });

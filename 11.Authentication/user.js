@@ -1,7 +1,10 @@
-const Joi = require('Joi');
+const Joi = require('joi');
+const _ = require('lodash')
 const mongoose = require('mongoose');
+const express = require('express');
 const app = express();
 
+app.use(express.json());
 
 mongoose.connect('mongodb://localhost/form')
     .then(() => console.log('Connected to MongoDB...'))
@@ -35,11 +38,12 @@ function validateUser(user) {
     const schema = {
         name: Joi.string().min(5).max(50).required(),
         email: Joi.string().min(5).max(255).required().email(),
-        password: Joi.string().min(5).max(255).required()
-    }
+        password: Joi.string().min(5).max(1024).required()
+    };
 
-    return Joi.validate(user, schema)
+    return Joi.object(schema).validate(user);
 };
+
 
 
 app.post('/api/user', async (req, res) => {
@@ -50,15 +54,10 @@ app.post('/api/user', async (req, res) => {
     if (user) return res.status(400).send('User already registerd');
 
 
-    user = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password
-    });
-
+    user = new User(_.pick(req.body, ['name', 'email', 'password']));
     await user.save();
 
-    res.send(user);
+    res.send(_.pick(user, ['_id', 'name', 'email']));
 })
 
 

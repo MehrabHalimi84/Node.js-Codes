@@ -132,4 +132,70 @@ user.password = await bcrypt.hash(user.password, salt);
 
 const validPassword = await bcrypt.compare(req.body.password, user.password);
  اینم برای لاگینه که زمانه ورورد رمز اولی رو مقایسه کنه با رمزه هش شده که ببینه درسته یا نه
- 
+
+
+ json web token
+ jwt
+
+ JWT یک استاندارد برای انتقال امن اطلاعات بین کلاینت و سرور به صورت رمزنگاری‌شده و کاملاً فشرده است.
+
+در اصل JWT یه توکن متنی هست که:
+
+اطلاعاتی مثل آیدی کاربر، نقش کاربر، زمان انقضا و ... داخلش قرار می‌گیره.
+
+توسط سرور امضا (sign) می‌شه (نه رمزگذاری).
+
+سمت کلاینت ذخیره می‌شه و در درخواست‌های بعدی فرستاده می‌شه.
+
+
+ساختار JWT:
+JWT از ۳ بخش تشکیل شده که با . جدا می‌شن:
+
+
+txt
+Copy
+Edit
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+eyJfaWQiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik1laHJhYiIsInJvbGUiOiJhZG1pbiJ9.
+V4XjNmeRoJ_a8Cg1ECuKZ0pxOm8DlLrWVK2RmAMkVJY
+
+
+
+
+1. Header (هدر)
+
+json
+Copy
+Edit
+{
+  "alg": "HS256",   // الگوریتم امضا
+  "typ": "JWT"       // نوع توکن
+}
+
+
+
+2. Payload (محتوا / claims)
+
+json
+Copy
+Edit
+{
+  "_id": "1234567890",
+  "name": "Mehrab",
+  "role": "admin",
+  "iat": 1623758400,     // زمان ایجاد (issued at)
+  "exp": 1623762000      // زمان انقضا
+}
+
+
+
+3. Signature (امضا)
+
+scss
+Copy
+Edit
+HMACSHA256(
+  base64UrlEncode(header) + "." + base64UrlEncode(payload),
+  secretKey
+)
+امضا با استفاده از کلید محرمانه (secret key) انجام می‌شه.

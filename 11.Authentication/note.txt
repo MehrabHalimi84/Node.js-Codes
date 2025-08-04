@@ -250,3 +250,32 @@ set project-jwtPrivateKey=mySecureKey
 لایک‌کردن یک پست	POST /api/posts/:id/like	باید بدونیم کدوم کاربر لایک کرده
 سفارش‌گذاری	POST /api/orders	فقط کاربر لاگین کرده باید سفارش بده
 ایجاد یا حذف محصول (برای admin)	POST /api/products	فقط کاربران خاص باید این اجازه رو داشته باشن
+
+
+
+
+
+ما گفتیم فقط توکن برای زمانایی که لاگین میشه باید استفاده کرد 
+
+اما 
+
+  const token = jwt.sign({ _id: user._id }, config.get('jwtPrivateKey'))
+    res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email'])); ==> 
+
+    توی ریجیستری هم دیدیم استفاده میشه 
+
+    دلیل 
+
+    اینه که بعضی سایتا بعد ریجیستری سریع لاگین میشن پس اونحا هم نیاز داریم
+
+res.header('x-auth-token', token) 
+پس این خط فقط برای اینه که ریکته سمته فرانت بگیرتش و ازش استفاده کنه برای لاگین های بعدی
+
+
+
+userSchema.methods.generateAuthToken() = function () {
+    const token = jwt.sign({ _id: this._id }, config.get('jwtPrivateKey'));
+    return token;
+}
+
+این حرکت برای وقتیه که بخوایم چند تا توکن توی هر جای برناه با هم سینک شن که به مشکل نخوره اگه یکیش رو تغییر دادیم

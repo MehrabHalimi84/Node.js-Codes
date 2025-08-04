@@ -199,3 +199,50 @@ HMACSHA256(
   secretKey
 )
 امضا با استفاده از کلید محرمانه (secret key) انجام می‌شه.
+
+npm i config
+const config = require('config')
+
+make folder ==> config
+make two file==> default.json & custom-enviroment-variable.json
+
+
+default.json
+{
+    "jwtPrivateKey": ""
+}
+
+custom-enviroment-variable.json
+{
+    "jwtPrivateKey": "project-jwtPrivateKey"
+}
+
+
+if (!config.get('jwtPrivateKey')) {
+    console.error('FATAL ERROR: jwtPrivateKey is not defined.');
+    process.exit(1);
+}
+برای این که اگه پرایوت کی وجود نداشت سریعا برنامه رو ببنده
+وضعیت 
+process.exit(1) اینن یعنی به مشکل خوردیم برنامه رو کنسل کن
+process.exit(0) یعنی همه چی اوکییه ادامه میدیم به برنامه
+
+ const token = jwt.sign({ _id: user._id }, config.get('jwtPrivateKey'));
+ و در نهایت هم یه توکن میسازیم
+
+
+ نکته 
+ توکن فقط جاهایی استفاده میشه که ما نیاز به احراز هویت داشته باشیم که بیشترش همون توی لاگینه
+
+
+ بیشتر 
+
+
+ هر درخواستی که نیاز به شناسایی هویت کاربر داره.
+مثلاً:
+نوع درخواست	مثال	دلیل نیاز به توکن
+گرفتن اطلاعات کاربر	GET /api/users/me	فقط خودش باید بتونه ببینه
+ثبت نظر	POST /api/comments	باید بدونیم کدوم کاربر این نظر رو نوشته
+لایک‌کردن یک پست	POST /api/posts/:id/like	باید بدونیم کدوم کاربر لایک کرده
+سفارش‌گذاری	POST /api/orders	فقط کاربر لاگین کرده باید سفارش بده
+ایجاد یا حذف محصول (برای admin)	POST /api/products	فقط کاربران خاص باید این اجازه رو داشته باشن

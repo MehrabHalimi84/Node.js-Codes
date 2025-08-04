@@ -1,3 +1,4 @@
+const config = require('config')
 const Joi = require('joi');
 const jwt = required('jsonwebtoken');
 const _ = require('lodash');
@@ -7,6 +8,11 @@ const express = require('express');
 const app = express();
 
 app.use(express.json());
+
+if (!config.get('jwtPrivateKey')) {
+    console.error('FATAL ERROR: jwtPrivateKey is not defined.');
+    process.exit(1);
+}
 
 mongoose.connect('mongodb://localhost/form')
     .then(() => console.log('Connected to MongoDB...'))
@@ -57,7 +63,7 @@ app.post('/api/auth', async (req, res) => {
     const validPassword = await bcrypt.compare(req.body.password, user.password);
     if (!validPassword) return res.status(400).send('Invalid email or password.')
 
-    const token = jwt.sign({ _id: user._id }, 'jwtPrivateKey')
+    const token = jwt.sign({ _id: user._id }, config.get('jwtPrivateKey'));
 
     res.send(token);
 })

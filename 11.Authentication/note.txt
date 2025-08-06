@@ -305,3 +305,8 @@ module.exports = function (req, res, next) {
     }
 }
 
+
+
+safe token
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODkzYzZiOTcxMDc0YmM0ZTBlNjM4ODgiLCJpYXQiOjE3NTQ1MTUxMjl9.TkthpLG41KgkWJVJGnOrWkHjZqQxyLKKh4ohCPcQId0

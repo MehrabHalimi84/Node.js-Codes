@@ -1,5 +1,6 @@
 const auth = require('./middleware/auth');
 const Joi = require('joi');
+const admin = require('./middleware/admin')
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 const config = require('config');
@@ -35,11 +36,12 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 5,
         maxlength: 1024
-    }
+    },
+    isAdmin: Boolean
 })
 
 userSchema.methods.generateAuthToken = function () {
-    const token = jwt.sign({ _id: this._id }, config.get('jwtPrivateKey'));
+    const token = jwt.sign({ _id: this._id, isAdmin: this.isAdmin }, config.get('jwtPrivateKey'));
     return token;
 }
 
@@ -51,12 +53,18 @@ function validateUser(user) {
     const schema = {
         name: Joi.string().min(5).max(50).required(),
         email: Joi.string().min(5).max(255).required().email(),
-        password: Joi.string().min(5).max(1024).required()
+        password: Joi.string().min(5).max(1024).required(),
+        isAdmin: Joi.boolean()
     };
 
     return Joi.object(schema).validate(user);
 };
 
+
+app.get('/me', auth, async (req, res) => {
+    const user = await User.findById(req.user._id).select('-password');
+    res.send(user);
+})
 
 
 app.post('/api/user', auth, async (req, res) => {
@@ -67,7 +75,7 @@ app.post('/api/user', auth, async (req, res) => {
     if (user) return res.status(400).send('User already registerd');
 
 
-    user = new User(_.pick(req.body, ['name', 'email', 'password']));
+    user = new User(_.pick(req.body, ['name', 'email', 'password', 'isAdmin']));
 
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
@@ -75,9 +83,16 @@ app.post('/api/user', auth, async (req, res) => {
     await user.save();
 
     token = user.generateAuthToken()
-    res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email']));
+    res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email', 'isAdmin']));
 })
 
+app.delete('/:id', [auth, admin], async (req, res) => {
+    const user = await User.findByIdAndDelete(req.params.id);
+
+    if (!user) return res.status(404).send('The user with given ID not find...')
+
+    res.send(user)
+})
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));	

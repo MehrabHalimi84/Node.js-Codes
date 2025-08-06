@@ -1,3 +1,4 @@
+const auth = require('./middleware/auth');
 const Joi = require('joi');
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
@@ -37,7 +38,7 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-userSchema.methods.generateAuthToken() = function () {
+userSchema.methods.generateAuthToken = function () {
     const token = jwt.sign({ _id: this._id }, config.get('jwtPrivateKey'));
     return token;
 }
@@ -58,7 +59,7 @@ function validateUser(user) {
 
 
 
-app.post('/api/user', async (req, res) => {
+app.post('/api/user', auth, async (req, res) => {
     const result = validateUser(req.body)
     if (result.error) return res.status(400).send(result.error.details[0].message);
 
@@ -68,7 +69,7 @@ app.post('/api/user', async (req, res) => {
 
     user = new User(_.pick(req.body, ['name', 'email', 'password']));
 
-    const salt = await bcrypt.gensalt(10);
+    const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
 
     await user.save();
@@ -79,4 +80,4 @@ app.post('/api/user', async (req, res) => {
 
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening on port ${port}...`));
+app.listen(port, () => console.log(`Listening on port ${port}...`));	

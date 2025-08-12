@@ -1,0 +1,67 @@
+بهتره برای هر متود های 
+api
+ما بیایم 
+try{
+
+}
+catch{
+
+}
+
+توی کچ ما باید این باشه 
+
+function(err, req, res, next) {
+    res.status(500).send('Something failed.); 
+}
+
+
+استفاده کنیم
+پس برای این که برای همه متود ها استفاده کنیم و اضافی نیاد میا میایم یه ساختار کلی درست میکنیم و اونو استفاده میکنیم
+
+function asyncMiddleware(handler) {
+    return async (req, res, next) => {
+        try {
+            await handler(req, res);
+        }
+        catch (ex) {
+            next(ex)
+        }
+    }
+}
+
+اینه
+
+حالا توی بلاک هر متود اینو ارجاع میدیم که ساختار کلی اینحوری باشه
+
+
+app.get('/me', auth, asyncMiddleware(async (req, res) => {
+    const user = await User.findById(req.user._id).select('-password');
+    res.send(user);
+}));
+
+حالا اونم اضافه میکنیم
+
+ولی بهتر از اون اینه که کتاب خونه اماده استفاده کنیم
+
+npm i express-async-errors
+
+require('express-async-errors') خالی
+
+
+
+npm i winston
+
+داخل فایل اصلی پروژه 
+
+winston.createLogger(winston.transports.File, { filename : 'logfile.log'});
+
+
+function(err, req, res, next) {
+    winston.error(err.message, err);
+
+    res.status(500).send('Something failed.'); 
+}
+
+بعد توی متود ها اینو مینویسیم
+
+throw new Error('Could not get the genres..')

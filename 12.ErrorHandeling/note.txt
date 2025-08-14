@@ -65,3 +65,36 @@ function(err, req, res, next) {
 بعد توی متود ها اینو مینویسیم
 
 throw new Error('Could not get the genres..')
+
+error   برای خطاهای جدی که باعث مشکل در اجرا میشن
+warn   هشدارها؛ مشکل جدی نیست ولی باید بررسی بشه
+info    پیام‌های اطلاعاتی کلی (مثل موفقیت عملیات)
+verbose  اطلاعات جزئی‌تر برای مانیتور کردن
+debug    پیام‌های دیباگ کردن (بیشتر برای توسعه‌دهنده)
+silly    جزییات خیلی زیاد (کمتر استفاده میشه)
+
+
+برای ذخیره لاک ها توی دیتا بیس
+
+npm i winston-mongodb
+
+require('winston-mongodb')
+
+winston.add(winston.transports.MongoDB, { db: 'mongodb://localhost/ProjectName',
+level : info
+ });
+ 
+
+ اینجوری سیو میشه توی دیتا بیس
+
+ اگه هر کدوم از اون گزینه ها رو توو لول بزاریم بالا تری هاشم شامل میشه
+
+ winston.handleExceptions(
+    new winston.transports.File({ filename : 'uncaughtExceptions.log}))
+
+process.ono('unhandledRejection' , (ex) => {
+    throw ex;
+})
+
+اینا برای مشکلاتی که ما توی کدامون از 
+catch براشون استفاده نکردیم 

@@ -1,0 +1,206 @@
+unit test
+
+frameWorks
+
+Jest
+
+npm i jest--save-dev
+
+توی پکیج جیسون اینو بنویس که اتوماتیک شه
+  "test": "jest --watchAll"
+  
+کلان تست کردن برای اینه که ما یه کدی رو به همراه کد تستش بزنیم که در ادامه و یا اخر پروژه اگه
+کد دستکاری شد به هر نوعی بفهمیم مشکل کجا بوده و سریع درستش کنیم
+
+Testing Numbers
+
+const lib = require('../lib');
+
+describe('absolute', () => {
+    it('should return a positive number if input is positive', () => {
+        const result = lib.absolute(1);
+        expect(result).toBe(1);
+    });
+    it('should return a positive number if input is negative', () => {
+        const result = lib.absolute(-1);
+        expect(result).toBe(1);
+    });
+    it('should return 0 number if input is 0', () => {
+        const result = lib.absolute(0);
+        expect(result).toBe(0);
+    });
+});
+
+داخل این کد بالا یه گروپ تست داریم که این کارو میکنه
+
+اول اون فانکشنی رو که میخوایم تست بشه رو اینپورت میکنیم بعد برای هر شرط یا هر احتمال 
+وجود یک خروجی میایم یه بلاکه 
+it درست میکنیم
+
+در خط اول بلاک تست ورودی رو ست میکنیم و در دومی اونو مقایسه میکنیم با یه مقدار واقعی 
+
+Testing String
+
+ expect(result).toBe('Welcome Mehrab');// سخت گیر باید حتما همون خروجی باشه تا قبول کنه
+        expect(result).toMatch(/Mehrab/)    // میبینه پترنه مهراب رو داره یا نه
+        expect(result).toContain('Mehrab'); // میبینه وجود داره یا نه
+
+Testing Array
+
+describe('getCurrencies', () => {
+    it('should return supported currencies', () => {
+        const result = lib.getCurrencies();
+        expect(result).toEqual(expect.arrayContaining(['EUR', 'USD', 'AUD']));
+    });
+});
+
+expect(result).toEqual(expect.arrayContaining(['EUR', 'USD', 'AUD'])); //مهم
+این خط خلاصه شده سه تا خط اینه
+expect(result).toContain('EUR');
+
+Testing Object
+
+describe('getProduct', () => {
+    it('should return the product with the given id', () => {
+        const result = lib.getProduct(1);
+        // expect(result).toEqual({ id: 1, price: 10 }) // سخت گیر
+
+        expect(result).toMatchObject({ id: 1, price: 10 }); // اینارو داشته باشه
+
+        expect(result).toHaveProperty('id', 1); // این کی این ولیو رو داشته باشه
+    })
+});
+
+یه نسخه کامل با ارور 
+
+describe('registerUser', () => {
+    // اگه ارور داشتیم یه رفتاری داشته باشه
+    it('should throw if username is falsy', () => {
+        const args = [null, undefined, NaN, '', 0, false]; // اگه یورزنیم یکی از اینا بود و ارور میخواست بده و ارور نداد گیر بده
+        args.forEach(a => {
+            expect(() => { lib.registerUser(a) }).toThrow();// انتظار میره وقتی ارور داریم این ارور نداد این گیر بده بهش 
+        })
+    });
+
+    it('should return a user object if valid username is passed', () => {
+        const result = lib.registerUser('Mehrab');
+        expect(result).toMatchObject({ username: 'Mehrab' });
+        expect(result.id).toBeGreaterThan(0);
+    })
+})
+
+
+integration test
+
+npm i supertest --save--dev
+
+توی این نوع تست ما میخوایم اول ورودی رو تبدیل میکنیم به یه متغیر و بعد میایم جواب اون متغیر رو میبنیم که استاتوسش چه عددیه 
+اگه 200 باشه یعنی اوکیه 
+
+
+
+متدهای دیگه‌ای که شبیه insertMany هستن (برای کار با دیتابیس):
+
+insertOne(doc) → یک سند وارد کن.
+
+find(query) → جستجو کن.
+
+findOne(query) → یک سند پیدا کن.
+
+deleteMany(query) → چندتا رو پاک کن.
+
+deleteOne(query) → یکی رو پاک کن.
+
+updateOne(filter, update) → یک سند رو تغییر بده.
+
+
+describe('/api/db', () => {
+    beforeEach(() => { server = require('../../index'); });
+    afterEach(async () => {
+        server.close();
+        await Genre.remove({});
+    });
+
+    describe('GET / ', () => {
+        it('should return all db', async () => {
+            await Genre.collection.insertMany([
+                { name: 'Genre1' },
+                { name: 'Genre2' },
+                { name: 'Genre3' }
+            ]);
+
+            const res = await request(server).get('/api/db');
+
+            expect(res.status).toBe(200);
+            expect(res.body.length).toBe(3);
+            expect(res.body[0]).toHaveProperty('name', 'Genre1');
+            expect(res.body[1]).toHaveProperty('name', 'Genre2');
+            expect(res.body[2]).toHaveProperty('name', 'Genre3');
+        });
+    });
+});
+
+کلان این 
+ await Genre.collection.insertMany([
+                { name: 'Genre1' },
+                { name: 'Genre2' },
+                { name: 'Genre3' }
+            ]);
+برای اینه که ما بیاین یه اطلاعات فیک بدین به دیتا بیس که ببیننم درست کار مکنه بعد تستمون رو انحام بدیم
+
+
+یه نمونه کد تست برای هر 4 تا متود 
+
+describe('/api/genres', () => {
+
+  describe('GET /', () => {
+    it('should return all genres', async () => {
+      // داده fake بساز
+      await Genre.collection.insertMany([{ name: 'Genre1' }, { name: 'Genre2' }]);
+
+      const res = await request(server).get('/api/genres');
+
+      expect(res.status).toBe(200);
+      expect(res.body.length).toBe(2);
+    });
+  });
+
+  describe('GET /:id', () => {
+    it('should return a genre if valid id is passed', async () => {
+      const genre = new Genre({ name: 'Genre1' });
+      await genre.save();
+
+      const res = await request(server).get('/api/genres/' + genre._id);
+
+      expect(res.status).toBe(200);
+      expect(res.body).toHaveProperty('name', genre.name);
+    });
+  });
+
+  describe('POST /', () => {
+    it('should save the genre if input is valid', async () => {
+      const res = await request(server)
+        .post('/api/genres')
+        .send({ name: 'Genre1' });
+
+      expect(res.status).toBe(200);
+
+      const genre = await Genre.find({ name: 'Genre1' });
+      expect(genre).not.toBeNull();
+    });
+  });
+
+  describe('DELETE /:id', () => {
+    it('should delete the genre if id is valid', async () => {
+      const genre = new Genre({ name: 'Genre1' });
+      await genre.save();
+
+      const res = await request(server).delete('/api/genres/' + genre._id);
+
+      expect(res.status).toBe(200);
+      const genreInDb = await Genre.findById(genre._id);
+      expect(genreInDb).toBeNull();
+    });
+  });
+
+});

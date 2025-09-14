@@ -26,3 +26,8 @@ require('./prod')(app);
 // "engine": {
 //     "node": "20.14.0"
 // },
+
+
+// چیزی که باید تو اینگنور گیت بنویسیم
+// node_modules
+// coverage
